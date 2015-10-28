@@ -1,0 +1,9 @@
+{
+  "extends": "nkt/react",
+  "parser": "babel-eslint",
+  "plugins": ["react"],
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}
