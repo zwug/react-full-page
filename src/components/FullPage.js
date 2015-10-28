@@ -2,12 +2,8 @@ const React = require('react');
 const animatedScrollTo = require('../utils/animated-scroll-to');
 
 const FullPage = React.createClass({
-  statics: {
-    getMeta() {
-      return {
-        title: 'О нас'
-      };
-    }
+  propTypes: {
+    children: React.PropTypes.node.isRequired
   },
   getInitialState() {
     return {
@@ -18,7 +14,7 @@ const FullPage = React.createClass({
     document.addEventListener('wheel', this.onScroll);
     document.addEventListener('touchstart', this.onTouchStart);
     document.addEventListener('touchend', this.onTouchEnd);
-    document.addEventListener('resize', this.onResize);
+    window.addEventListener('resize', this.onResize);
 
     this.slidesCount = 5;
     this.onResize();
@@ -30,7 +26,7 @@ const FullPage = React.createClass({
     document.removeEventListener('wheel', this.onScroll);
     document.removeEventListener('touchstart', this.onTouchStart);
     document.removeEventListener('touchend', this.onTouchEnd);
-    document.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.onResize);
   },
   onResize() {
     this.slides = [];
@@ -38,6 +34,10 @@ const FullPage = React.createClass({
     for (let i = 0; i < this.slidesCount; i++) {
       this.slides.push(window.innerHeight * i);
     }
+
+    this.setState({
+      height: window.innerHeight
+    });
   },
   scrollToSlide(slide) {
     if (slide >= 0 && slide < this.slidesCount) {
@@ -85,13 +85,8 @@ const FullPage = React.createClass({
   },
   render() {
     return (
-      <div className="about">
-        <section className="about-slide about-slide-yard" >
-          +1
-        </section>
-        <section className="about-slide about-slide-yard" >
-          +2
-        </section>
+      <div style={{height: this.state.height}}>
+        {this.props.children}
       </div>
     );
   }
