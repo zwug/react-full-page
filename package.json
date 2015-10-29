@@ -1,5 +1,5 @@
 {
-  "name": "full-page",
+  "name": "react-full-page",
   "version": "0.0.1",
   "description": "Full page scrolling with React",
   "main": "index.js",
@@ -11,23 +11,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zwug/fullPage.git"
+    "url": "git+https://github.com/zwug/react-full-page.git"
   },
-  "author": "zwug",
-  "license": "ISC",
+  "author": "Kirill Mironov",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zwug/fullPage/issues"
+    "url": "https://github.com/zwug/react-full-page/issues"
   },
-  "homepage": "https://github.com/zwug/fullPage#readme",
-  "dependencies": {
+  "homepage": "https://github.com/zwug/react-full-page#readme",
+  "devDependencies": {
     "babel-eslint": "4.1.3",
     "babel-loader": "5.3.2",
     "eslint": "1.7.3",
     "eslint-config-nkt": "0.10.1",
     "eslint-plugin-react": "3.6.3",
     "html-webpack-plugin": "1.6.2",
-    "react": "0.14.0",
-    "react-dom": "0.14.0",
     "webpack": "1.12.2"
+  },
+  "peerDependencies": {
+    "react": "0.14.1",
+    "react-dom": "0.14.1"
   }
 }
