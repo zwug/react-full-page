@@ -2,12 +2,12 @@
   "name": "react-full-page",
   "version": "0.0.1",
   "description": "Full page scrolling with React",
-  "main": "index.js",
+  "main": "./lib",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "./node_modules/.bin/babel ./src --out-dir ./lib"
   },
   "repository": {
     "type": "git",

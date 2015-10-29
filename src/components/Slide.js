@@ -2,14 +2,14 @@ const React = require('react');
 
 const Slide = React.createClass({
   propTypes: {
-    className: React.PropTypes.string,
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
+    style: React.PropTypes.object
   },
   render() {
     return (
-      <section className={this.props.className} style={{height: '100%'}}>
+      <div {...this.props} style={Object.assign({}, this.props.style, {height: '100%'})}>
         {this.props.children}
-      </section>
+      </div>
     );
   }
 });

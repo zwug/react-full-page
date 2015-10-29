@@ -1,15 +1,14 @@
 const React = require('react');
-const FullPage = require('../src/components/FullPage');
-const Slide = require('../src/components/Slide');
+const {FullPage, Slide} = require('../src');
 
 const FullPageExample = React.createClass({
   render() {
     return (
       <FullPage>
-        <Slide>
+        <Slide style={{background: '#2ECC40'}}>
           #1
         </Slide>
-        <Slide>
+        <Slide style={{background: '#0074D9'}}>
           #2
         </Slide>
       </FullPage>
