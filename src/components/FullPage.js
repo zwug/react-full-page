@@ -16,7 +16,7 @@ const FullPage = React.createClass({
     document.addEventListener('touchend', this.onTouchEnd);
     window.addEventListener('resize', this.onResize);
 
-    this.slidesCount = 5;
+    this.slidesCount = this.props.children.length;
     this.onResize();
     this.scrollToSlide(0);
     this.touchStart = 0;
