@@ -20,16 +20,24 @@
   },
   "homepage": "https://github.com/zwug/react-full-page#readme",
   "devDependencies": {
-    "babel-eslint": "4.1.3",
-    "babel-loader": "5.3.2",
-    "eslint": "1.7.3",
-    "eslint-config-nkt": "0.10.1",
-    "eslint-plugin-react": "3.6.3",
-    "html-webpack-plugin": "1.6.2",
-    "webpack": "1.12.2"
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "eslint": "^3.3.0",
+    "eslint-config-nkt": "^2.0.2",
+    "eslint-plugin-react": "^6.0.0",
+    "html-webpack-plugin": "^2.22.0",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
   },
   "peerDependencies": {
-    "react": "0.14.1",
-    "react-dom": "0.14.1"
+    "react": "^0.14.0 || ^15.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0"
   }
 }
