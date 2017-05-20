@@ -1,10 +1,12 @@
-const React = require('react');
+import PropTypes from 'prop-types';
+import React from 'react';
 
-const Slide = React.createClass({
+class Slide extends React.Component {
   propTypes: {
-    children: React.PropTypes.node,
-    style: React.PropTypes.object
-  },
+    children: PropTypes.node,
+    style: PropTypes.object
+  }
+
   render() {
     return (
       <div {...this.props} style={Object.assign({}, this.props.style, {height: '100%'})}>
@@ -12,6 +14,6 @@ const Slide = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = Slide;

@@ -1,7 +1,7 @@
-const React = require('react');
-const {FullPage, Slide} = require('../src');
+import React from 'react';
+import {FullPage, Slide} from '../src';
 
-const FullPageExample = React.createClass({
+class FullPageExample extends React.Component {
   render() {
     return (
       <FullPage>
@@ -11,9 +11,15 @@ const FullPageExample = React.createClass({
         <Slide style={{background: '#0074D9'}}>
           #2
         </Slide>
+        <Slide style={{background: '#2ECC40'}}>
+          #3
+        </Slide>
+        <Slide style={{background: '#0074D9'}}>
+          #4
+        </Slide>
       </FullPage>
     );
   }
-});
+}
 
 module.exports = FullPageExample;

@@ -5,5 +5,8 @@
   "env": {
     "browser": true,
     "node": true
+  },
+  "rules": {
+    "react/jsx-uses-vars": [2]
   }
 }
