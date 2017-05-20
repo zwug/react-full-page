@@ -7,6 +7,7 @@
     "example": "examples"
   },
   "scripts": {
+    "start": "webpack-dev-server",
     "prepublish": "./node_modules/.bin/babel ./src --out-dir ./lib"
   },
   "repository": {
@@ -22,19 +23,18 @@
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
-    "babel-eslint": "^6.1.2",
-    "babel-loader": "^6.2.4",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
     "eslint": "^3.3.0",
-    "eslint-config-nkt": "^2.0.2",
-    "eslint-plugin-react": "^6.0.0",
+    "eslint-plugin-react": "^7.0.1",
     "html-webpack-plugin": "^2.22.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^2.5.1",
+    "webpack-dev-server": "^2.4.5"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0",
