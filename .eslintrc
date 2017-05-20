@@ -1,5 +1,5 @@
 {
-  "extends": "nkt/react",
+  "extends": "eslint:recommended",
   "parser": "babel-eslint",
   "plugins": ["react"],
   "env": {
