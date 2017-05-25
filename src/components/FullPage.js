@@ -11,7 +11,7 @@ class FullPage extends React.Component {
     super(props);
     this.onResize = this.onResize.bind(this);
     this.onScroll = this.onScroll.bind(this);
-    this.onTouchEnd = this.onTouchEnd.bind(this);
+    this.onTouchMove = this.onTouchMove.bind(this);
     this.onTouchStart = this.onTouchStart.bind(this);
 
     this.scrollPending = false;
@@ -26,7 +26,7 @@ class FullPage extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('touchend', this.onTouchEnd);
+    document.addEventListener('touchmove', this.onTouchMove);
     document.addEventListener('touchstart', this.onTouchStart);
     document.addEventListener('wheel', this.onScroll);
     window.addEventListener('resize', this.onResize);
@@ -36,7 +36,7 @@ class FullPage extends React.Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('touchend', this.onTouchEnd);
+    document.removeEventListener('touchmove', this.onTouchMove);
     document.removeEventListener('touchstart', this.onTouchStart);
     document.removeEventListener('wheel', this.onScroll);
     window.removeEventListener('resize', this.onResize);
@@ -71,14 +71,18 @@ class FullPage extends React.Component {
     this.touchStart = e.touches[0].clientY;
   }
 
-  onTouchEnd(e) {
-    const touchEnd = e.changedTouches[0].clientY;
+  onTouchMove(evt) {
+    evt.preventDefault();
+    const touchEnd = evt.changedTouches[0].clientY;
 
-    if (this.touchStart > touchEnd + this.touchSensitivity) {
-      this.scrollToSlide(this.state.activeSlide + 1);
-    } else if (this.touchStart < touchEnd - this.touchSensitivity) {
-      this.scrollToSlide(this.state.activeSlide - 1);
+    if (!this.scrollPending) {
+      if (this.touchStart > touchEnd + this.touchSensitivity) {
+        this.scrollToSlide(this.state.activeSlide + 1);
+      } else if (this.touchStart < touchEnd - this.touchSensitivity) {
+        this.scrollToSlide(this.state.activeSlide - 1);
+      }
     }
+
   }
 
   onArrowClick() {

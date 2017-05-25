@@ -9,7 +9,7 @@ class Slide extends React.Component {
 
   render() {
     return (
-      <div {...this.props} style={Object.assign({}, this.props.style, {height: '100%'})}>
+      <div {...this.props} style={Object.assign({}, this.props.style, {height: '100%', touchAction: 'none'})}>
         {this.props.children}
       </div>
     );
