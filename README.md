@@ -1,6 +1,8 @@
 # react-full-page
 Full screen scrolling with React
 
+## [DEMO](http://zwug.github.io/react-full-page/)
+
 ```js
 const {FullPage, Slide} = require('../src');
 
