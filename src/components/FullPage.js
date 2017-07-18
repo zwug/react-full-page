@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Provider } from './ControlProvider';
 import animatedScrollTo from '../utils/animated-scroll-to';
 
 class FullPage extends React.Component {
@@ -16,7 +17,9 @@ class FullPage extends React.Component {
 
     this.scrollPending = false;
     this.slides = [];
-    this.slidesCount = props.children.length;
+    this.slidesCount = React.Children.toArray(props.children).filter((child) => {
+      return child.type.displayName !== 'ControlledComponent';
+    }).length;
     this.touchSensitivity = 5;
     this.touchStart = 0;
 
@@ -55,7 +58,7 @@ class FullPage extends React.Component {
   }
 
   scrollToSlide(slide) {
-    if (slide >= 0 && slide < this.slidesCount) {
+    if (!this.scrollPending && slide >= 0 && slide < this.slidesCount) {
       this.setState({
         activeSlide: slide
       });
@@ -85,10 +88,6 @@ class FullPage extends React.Component {
 
   }
 
-  onArrowClick() {
-    this.scrollToSlide(this.state.activeSlide + 1);
-  }
-
   onScroll(e) {
     e.preventDefault();
     if (this.scrollPending) {
@@ -107,11 +106,37 @@ class FullPage extends React.Component {
     this.scrollToSlide(activeSlide);
   }
 
+  scrollNext() {
+    this.scrollToSlide(this.state.activeSlide + 1);
+  }
+
+  scrollPrev() {
+    this.scrollToSlide(this.state.activeSlide - 1);
+  }
+
+  getSlidesCount() {
+    return this.slidesCount;
+  }
+
+  getCurrentIndex() {
+    return this.state.activeSlide;
+  }
+
   render() {
+    const controls = {
+      scrollToSlide: this.scrollToSlide.bind(this),
+      scrollNext: this.scrollNext.bind(this),
+      scrollPrev: this.scrollPrev.bind(this),
+      getSlidesCount: this.getSlidesCount.bind(this),
+      getCurrentIndex: this.getCurrentIndex.bind(this),
+    };
+
     return (
-      <div style={{height: this.state.height}}>
-        {this.props.children}
-      </div>
+      <Provider {...controls}>
+        <div style={{height: this.state.height}}>
+          {this.props.children}
+        </div>
+      </Provider>
     );
   }
 }
