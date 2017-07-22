@@ -1,10 +1,43 @@
 import React from 'react';
-import {FullPage, Slide} from '../src';
+import {FullPage, Slide, withControls} from '../src';
+
+const Controls = withControls((controls) => {
+  const {
+    scrollToSlide,
+    scrollNext,
+    scrollPrev,
+    getSlidesCount,
+    getCurrentIndex,
+  } = controls;
+  const totalSlides = getSlidesCount();
+  const activeSlide = getCurrentIndex();
+  const dots = [];
+
+  for (let i = 0; i < totalSlides; i++) {
+    dots.push(<button
+        key={i}
+        disabled={activeSlide === i}
+        onClick={()=>scrollToSlide(i)}>
+        { i + 1 }
+    </button>);
+  }
+
+  return <div style={{position: 'fixed'}}>
+    <button
+      disabled={activeSlide === 0}
+      onClick={scrollPrev}>←</button>
+    {dots}
+    <button
+      disabled={activeSlide === totalSlides - 1}
+      onClick={scrollNext}>→</button>
+  </div>
+})
 
 class FullPageExample extends React.Component {
   render() {
     return (
       <FullPage>
+        <Controls/>
         <Slide style={{background: '#2ECC40', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
           <h1>1</h1>
         </Slide>
