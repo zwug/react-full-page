@@ -5,7 +5,12 @@ import animatedScrollTo from '../utils/animated-scroll-to';
 
 class FullPage extends React.Component {
   propTypes: {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    initialSlide: PropTypes.number
+  }
+
+  static defaultProps = {
+    initialSlide: 0
   }
 
   constructor(props) {
@@ -24,7 +29,7 @@ class FullPage extends React.Component {
     this.touchStart = 0;
 
     this.state = {
-      activeSlide: 0
+      activeSlide: props.initialSlide
     };
   }
 
@@ -35,7 +40,7 @@ class FullPage extends React.Component {
     window.addEventListener('resize', this.onResize);
 
     this.onResize();
-    this.scrollToSlide(0);
+    this.scrollToSlide(this.props.initialSlide);
   }
 
   componentWillUnmount() {
