@@ -9,7 +9,7 @@ const {FullPage, Slide} = require('react-full-page');
 const FullPageExample = React.createClass({
   render() {
     return (
-      <FullPage>
+      <FullPage {/* initialSlide={1} */}>
         <Slide>
           <h1>Inner slide content</h1>
         </Slide>
@@ -21,6 +21,10 @@ const FullPageExample = React.createClass({
   }
 });
 ```
+
+__Available props__
+
+* `initialSlide` defaults to `0`
 ## Slider Controls
 
 `withControls` wrapper provides method to control slider.
