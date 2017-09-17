@@ -1,6 +1,8 @@
 # react-full-page
 Full screen scrolling with React
 
+[![npm](https://img.shields.io/npm/v/react-full-page.svg)](https://www.npmjs.com/package/react-full-page)
+
 ## [DEMO](http://zwug.github.io/react-full-page/)
 
 ```js
