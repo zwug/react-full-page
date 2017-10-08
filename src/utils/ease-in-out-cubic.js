@@ -1,7 +1,5 @@
 function easeInOutCubic(currentTime, startValue, changeInValue, duration) {
-  let time = currentTime;
-  time /= duration;
-  time--;
+  const time = currentTime / duration - 1;
   return changeInValue * (time * time * time + 1) + startValue;
 }
 
