@@ -21,6 +21,7 @@ class FullPage extends React.Component {
     this.onTouchStart = this.onTouchStart.bind(this);
 
     this.scrollPending = false;
+    this.scrolledAlready = false;
     this.slides = [];
     this.slidesCount = React.Children.toArray(props.children).filter((child) => {
       return child.type.displayName !== 'ControlledComponent';
@@ -71,19 +72,21 @@ class FullPage extends React.Component {
       this.scrollPending = true;
       animatedScrollTo(this.slides[slide], 700, () => {
         this.scrollPending = false;
+        this.scrolledAlready = true;
       });
     }
   }
 
   onTouchStart(e) {
     this.touchStart = e.touches[0].clientY;
+    this.scrolledAlready = false;
   }
 
   onTouchMove(evt) {
     evt.preventDefault();
     const touchEnd = evt.changedTouches[0].clientY;
 
-    if (!this.scrollPending) {
+    if (!this.scrollPending && !this.scrolledAlready) {
       if (this.touchStart > touchEnd + this.touchSensitivity) {
         this.scrollToSlide(this.state.activeSlide + 1);
       } else if (this.touchStart < touchEnd - this.touchSensitivity) {
