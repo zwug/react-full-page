@@ -19,6 +19,7 @@ class FullPage extends React.Component {
     this.onScroll = this.onScroll.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onTouchStart = this.onTouchStart.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
 
     this.scrollPending = false;
     this.scrolledAlready = false;
@@ -39,6 +40,7 @@ class FullPage extends React.Component {
     document.addEventListener('touchstart', this.onTouchStart);
     document.addEventListener('wheel', this.onScroll);
     window.addEventListener('resize', this.onResize);
+    window.addEventListener('keydown', this.onKeyDown);
 
     this.onResize();
     this.scrollToSlide(this.props.initialSlide);
@@ -49,6 +51,7 @@ class FullPage extends React.Component {
     document.removeEventListener('touchstart', this.onTouchStart);
     document.removeEventListener('wheel', this.onScroll);
     window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('keydown', this.onKeyDown);
   }
 
   onResize() {
@@ -112,6 +115,19 @@ class FullPage extends React.Component {
     }
 
     this.scrollToSlide(activeSlide);
+  }
+
+  onKeyDown(e) {
+    e.preventDefault();
+    if (e.keyCode === 40 || e.keyCode === 39) {
+      if (this.state.activeSlide !== this.slides.length -1) {
+        this.scrollToSlide(this.state.activeSlide + 1);
+      }
+    } else if (e.keyCode === 38 || e.keyCode === 37) {
+      if (this.state.activeSlide !== 0) {
+        this.scrollToSlide(this.state.activeSlide - 1);
+      }
+    }
   }
 
   scrollNext() {
