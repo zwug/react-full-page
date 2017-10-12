@@ -19,6 +19,7 @@ class FullPage extends React.Component {
     this.onScroll = this.onScroll.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onTouchStart = this.onTouchStart.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
 
     this.scrollPending = false;
     this.scrolledAlready = false;
