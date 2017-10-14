@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "lint": "eslint src",
+    "test": "eslint src",
     "example": "webpack -p",
     "prepublish": "./node_modules/.bin/babel ./src --out-dir ./lib"
   },
