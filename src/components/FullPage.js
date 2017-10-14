@@ -10,7 +10,7 @@ class FullPage extends React.Component {
   }
 
   static defaultProps = {
-    initialSlide: 0
+    initialSlide: 0,
   }
 
   constructor(props) {
@@ -23,14 +23,12 @@ class FullPage extends React.Component {
     this.scrollPending = false;
     this.scrolledAlready = false;
     this.slides = [];
-    this.slidesCount = React.Children.toArray(props.children).filter((child) => {
-      return child.type.displayName !== 'ControlledComponent';
-    }).length;
+    this.slidesCount = React.Children.toArray(props.children).filter(child => child.type.displayName !== 'ControlledComponent').length;
     this.touchSensitivity = 5;
     this.touchStart = 0;
 
     this.state = {
-      activeSlide: props.initialSlide
+      activeSlide: props.initialSlide,
     };
   }
 
@@ -59,14 +57,14 @@ class FullPage extends React.Component {
     }
 
     this.setState({
-      height: window.innerHeight
+      height: window.innerHeight,
     });
   }
 
   scrollToSlide(slide) {
     if (!this.scrollPending && slide >= 0 && slide < this.slidesCount) {
       this.setState({
-        activeSlide: slide
+        activeSlide: slide,
       });
 
       this.scrollPending = true;
@@ -93,7 +91,6 @@ class FullPage extends React.Component {
         this.scrollToSlide(this.state.activeSlide - 1);
       }
     }
-
   }
 
   onScroll(e) {
@@ -141,7 +138,7 @@ class FullPage extends React.Component {
 
     return (
       <Provider {...controls}>
-        <div style={{height: this.state.height}}>
+        <div style={{ height: this.state.height }}>
           {this.props.children}
         </div>
       </Provider>
