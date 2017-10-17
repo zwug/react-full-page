@@ -6,7 +6,8 @@ import animatedScrollTo from '../utils/animated-scroll-to';
 class FullPage extends React.Component {
   propTypes: {
     children: PropTypes.node.isRequired,
-    initialSlide: PropTypes.number
+    initialSlide: PropTypes.number,
+    onChange: PropTypes.func
   }
 
   static defaultProps = {
@@ -64,6 +65,10 @@ class FullPage extends React.Component {
   }
 
   scrollToSlide(slide) {
+    if(this.props.onChange !== undefined) {
+      this.props.onChange(slide);
+    }
+
     if (!this.scrollPending && slide >= 0 && slide < this.slidesCount) {
       this.setState({
         activeSlide: slide
