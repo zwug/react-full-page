@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Provider } from './ControlProvider';
 import animatedScrollTo from '../utils/animated-scroll-to';
 
 class FullPage extends React.Component {
-  propTypes: {
+  static propTypes = {
     children: PropTypes.node.isRequired,
-    initialSlide: PropTypes.number
+    initialSlide: PropTypes.number,
   }
 
   static defaultProps = {
@@ -23,7 +22,7 @@ class FullPage extends React.Component {
     this.scrollPending = false;
     this.scrolledAlready = false;
     this.slides = [];
-    this.slidesCount = React.Children.toArray(props.children).filter(child => child.type.displayName !== 'ControlledComponent').length;
+    this.slidesCount = React.Children.count(props.children);
     this.touchSensitivity = 5;
     this.touchStart = 0;
 
@@ -61,20 +60,6 @@ class FullPage extends React.Component {
     });
   }
 
-  scrollToSlide(slide) {
-    if (!this.scrollPending && slide >= 0 && slide < this.slidesCount) {
-      this.setState({
-        activeSlide: slide,
-      });
-
-      this.scrollPending = true;
-      animatedScrollTo(this.slides[slide], 700, () => {
-        this.scrollPending = false;
-        this.scrolledAlready = true;
-      });
-    }
-  }
-
   onTouchStart(e) {
     this.touchStart = e.touches[0].clientY;
     this.scrolledAlready = false;
@@ -96,11 +81,11 @@ class FullPage extends React.Component {
   onScroll(e) {
     e.preventDefault();
     if (this.scrollPending) {
-      return false;
+      return;
     }
 
     const scrollDown = (e.wheelDelta || -e.deltaY || -e.detail) < 0;
-    let activeSlide = this.state.activeSlide;
+    let { activeSlide } = this.state;
 
     if (scrollDown) {
       activeSlide++;
@@ -111,14 +96,6 @@ class FullPage extends React.Component {
     this.scrollToSlide(activeSlide);
   }
 
-  scrollNext() {
-    this.scrollToSlide(this.state.activeSlide + 1);
-  }
-
-  scrollPrev() {
-    this.scrollToSlide(this.state.activeSlide - 1);
-  }
-
   getSlidesCount() {
     return this.slidesCount;
   }
@@ -127,21 +104,33 @@ class FullPage extends React.Component {
     return this.state.activeSlide;
   }
 
-  render() {
-    const controls = {
-      scrollToSlide: this.scrollToSlide.bind(this),
-      scrollNext: this.scrollNext.bind(this),
-      scrollPrev: this.scrollPrev.bind(this),
-      getSlidesCount: this.getSlidesCount.bind(this),
-      getCurrentIndex: this.getCurrentIndex.bind(this),
-    };
+  scrollNext() {
+    this.scrollToSlide(this.state.activeSlide + 1);
+  }
 
+  scrollPrev() {
+    this.scrollToSlide(this.state.activeSlide - 1);
+  }
+
+  scrollToSlide(slide) {
+    if (!this.scrollPending && slide >= 0 && slide < this.slidesCount) {
+      this.setState({
+        activeSlide: slide,
+      });
+
+      this.scrollPending = true;
+      animatedScrollTo(this.slides[slide], 700, () => {
+        this.scrollPending = false;
+        this.scrolledAlready = true;
+      });
+    }
+  }
+
+  render() {
     return (
-      <Provider {...controls}>
-        <div style={{ height: this.state.height }}>
-          {this.props.children}
-        </div>
-      </Provider>
+      <div style={{ height: this.state.height }}>
+        {this.props.children}
+      </div>
     );
   }
 }

@@ -3,25 +3,28 @@ const HtmlwebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    index: path.join(__dirname, '/examples/index.js')
+    index: path.join(__dirname, '/examples/index.jsx'),
   },
   output: {
     filename: '[name].js',
     path: path.join(__dirname, '/docs/'),
-    chunkFilename: '[id].chunk.js'
+    chunkFilename: '[id].chunk.js',
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
-      }
-    ]
+        exclude: /node_modules/,
+      },
+    ],
   },
   plugins: [
     new HtmlwebpackPlugin({
-      title: 'Full Page'
-    })
-  ]
+      title: 'Full Page',
+    }),
+  ],
 };

@@ -9,5 +9,5 @@ document.body.style.margin = 0;
 
 ReactDOM.render(
   <FullPageExample />,
-  app
+  app,
 );

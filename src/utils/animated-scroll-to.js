@@ -8,16 +8,16 @@ function animatedScrollTo(scrollTo, duration, callback) {
 
   (function animateScroll() {
     currentTime += increment;
-    const newScrollPos = easeInOutCubic(
-        currentTime, scrollFrom, scrollDiff, duration);
+    const newScrollPos = easeInOutCubic(currentTime, scrollFrom, scrollDiff, duration);
 
     window.scrollTo(0, newScrollPos);
     if (currentTime > duration) {
-      return callback();
+      callback();
+      return;
     }
 
     setTimeout(animateScroll, increment);
-  })();
+  }());
 }
 
 module.exports = animatedScrollTo;
