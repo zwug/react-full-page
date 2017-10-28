@@ -27,4 +27,5 @@ module.exports = {
       title: 'Full Page',
     }),
   ],
+  devtool: 'source-map',
 };

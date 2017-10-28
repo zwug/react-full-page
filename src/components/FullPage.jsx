@@ -2,15 +2,30 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import animatedScrollTo from '../utils/animated-scroll-to';
 import isMobileDevice from '../utils/is-mobile';
+import Slide from './Slide';
+import Controls from './Controls';
 
-class FullPage extends React.Component {
+export default class FullPage extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
+    controls: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.element,
+    ]),
+    controlsProps: PropTypes.object,
     initialSlide: PropTypes.number,
   }
 
   static defaultProps = {
+    controls: false,
+    controlsProps: {},
     initialSlide: 0,
+  }
+
+  static getChildrenCount = (children) => {
+    const childrenArr = React.Children.toArray(children);
+    const slides = childrenArr.filter(({ type }) => type === Slide);
+    return slides.length;
   }
 
   constructor(props) {
@@ -19,7 +34,7 @@ class FullPage extends React.Component {
     this._isScrollPending = false;
     this._isScrolledAlready = false;
     this._slides = [];
-    this._slidesCount = React.Children.count(props.children);
+    this._slidesCount = FullPage.getChildrenCount(this.props.children);
     this._touchSensitivity = 5;
     this._touchStart = 0;
     this._isMobile = isMobileDevice();
@@ -100,23 +115,19 @@ class FullPage extends React.Component {
     this.scrollToSlide(activeSlide);
   }
 
-  getSlidesCount() {
-    return this._slidesCount;
-  }
+  getSlidesCount = () => this._slidesCount
 
-  getCurrentIndex() {
-    return this.state.activeSlide;
-  }
+  getCurrentSlideIndex = () => this.state.activeSlide
 
-  scrollNext() {
+  scrollNext = () => {
     this.scrollToSlide(this.state.activeSlide + 1);
   }
 
-  scrollPrev() {
+  scrollPrev = () => {
     this.scrollToSlide(this.state.activeSlide - 1);
   }
 
-  scrollToSlide(slide) {
+  scrollToSlide = (slide) => {
     if (!this._isScrollPending && slide >= 0 && slide < this._slidesCount) {
       this.setState({
         activeSlide: slide,
@@ -130,13 +141,42 @@ class FullPage extends React.Component {
     }
   }
 
+  renderControls() {
+    const { controls, controlsProps } = this.props;
+    if (!controls) {
+      return null;
+    }
+
+    const controlsBasicProps = {
+      getCurrentSlideIndex: this.getCurrentSlideIndex,
+      onNext: this.scrollNext,
+      onPrev: this.scrollPrev,
+      scrollToSlide: this.scrollToSlide,
+      slidesCount: this.getSlidesCount(),
+    };
+
+    if (controls === true) {
+      return (
+        <Controls
+          className="full-page-controls"
+          {...controlsBasicProps}
+          {...controlsProps}
+        />
+      );
+    }
+
+    const CustomControls = controls;
+    return (
+      <CustomControls {...controlsProps} {...controlsProps} />
+    );
+  }
+
   render() {
     return (
       <div style={{ height: this.state.height }}>
+        {this.renderControls()}
         {this.props.children}
       </div>
     );
   }
 }
-
-module.exports = FullPage;

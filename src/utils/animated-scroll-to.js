@@ -1,6 +1,6 @@
 const easeInOutCubic = require('./ease-in-out-cubic');
 
-function animatedScrollTo(scrollTo, duration, callback) {
+export default function animatedScrollTo(scrollTo, duration, callback) {
   const scrollFrom = window.scrollY;
   const scrollDiff = scrollTo - scrollFrom;
   let currentTime = 0;
@@ -19,5 +19,3 @@ function animatedScrollTo(scrollTo, duration, callback) {
     setTimeout(animateScroll, increment);
   }());
 }
-
-module.exports = animatedScrollTo;

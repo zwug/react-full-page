@@ -17,4 +17,6 @@ Slide.defaultProps = {
   style: {},
 };
 
-module.exports = Slide;
+Slide.isSlideOfFullpage = true;
+
+export default Slide;

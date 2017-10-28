@@ -1,7 +1,7 @@
-const FullPage = require('./components/FullPage');
-const Slide = require('./components/Slide');
+import FullPage from './components/FullPage';
+import Slide from './components/Slide';
 
-module.exports = {
+export {
   FullPage,
   Slide,
 };
