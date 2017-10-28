@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import animatedScrollTo from '../utils/animated-scroll-to';
+import isMobileDevice from '../utils/is-mobile';
 
 class FullPage extends React.Component {
   static propTypes = {
@@ -15,12 +16,13 @@ class FullPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.scrollPending = false;
-    this.scrolledAlready = false;
-    this.slides = [];
-    this.slidesCount = React.Children.count(props.children);
-    this.touchSensitivity = 5;
-    this.touchStart = 0;
+    this._isScrollPending = false;
+    this._isScrolledAlready = false;
+    this._slides = [];
+    this._slidesCount = React.Children.count(props.children);
+    this._touchSensitivity = 5;
+    this._touchStart = 0;
+    this._isMobile = isMobileDevice();
 
     this.state = {
       activeSlide: props.initialSlide,
@@ -28,9 +30,12 @@ class FullPage extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('touchmove', this.onTouchMove);
-    document.addEventListener('touchstart', this.onTouchStart);
-    document.addEventListener('wheel', this.onScroll);
+    if (this._isMobile) {
+      document.addEventListener('touchmove', this.onTouchMove);
+      document.addEventListener('touchstart', this.onTouchStart);
+    } else {
+      document.addEventListener('wheel', this.onScroll);
+    }
     window.addEventListener('resize', this.onResize);
 
     this.onResize();
@@ -38,17 +43,20 @@ class FullPage extends React.Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('touchmove', this.onTouchMove);
-    document.removeEventListener('touchstart', this.onTouchStart);
-    document.removeEventListener('wheel', this.onScroll);
+    if (this._isMobile) {
+      document.removeEventListener('touchmove', this.onTouchMove);
+      document.removeEventListener('touchstart', this.onTouchStart);
+    } else {
+      document.removeEventListener('wheel', this.onScroll);
+    }
     window.removeEventListener('resize', this.onResize);
   }
 
   onResize = () => {
-    this.slides = [];
+    this._slides = [];
 
-    for (let i = 0; i < this.slidesCount; i++) {
-      this.slides.push(window.innerHeight * i);
+    for (let i = 0; i < this._slidesCount; i++) {
+      this._slides.push(window.innerHeight * i);
     }
 
     this.setState({
@@ -57,18 +65,18 @@ class FullPage extends React.Component {
   }
 
   onTouchStart = (evt) => {
-    this.touchStart = evt.touches[0].clientY;
-    this.scrolledAlready = false;
+    this._touchStart = evt.touches[0].clientY;
+    this._isScrolledAlready = false;
   }
 
   onTouchMove = (evt) => {
     evt.preventDefault();
     const touchEnd = evt.changedTouches[0].clientY;
 
-    if (!this.scrollPending && !this.scrolledAlready) {
-      if (this.touchStart > touchEnd + this.touchSensitivity) {
+    if (!this._isScrollPending && !this._isScrolledAlready) {
+      if (this._touchStart > touchEnd + this._touchSensitivity) {
         this.scrollToSlide(this.state.activeSlide + 1);
-      } else if (this.touchStart < touchEnd - this.touchSensitivity) {
+      } else if (this._touchStart < touchEnd - this._touchSensitivity) {
         this.scrollToSlide(this.state.activeSlide - 1);
       }
     }
@@ -76,7 +84,7 @@ class FullPage extends React.Component {
 
   onScroll = (evt) => {
     evt.preventDefault();
-    if (this.scrollPending) {
+    if (this._isScrollPending) {
       return;
     }
 
@@ -93,7 +101,7 @@ class FullPage extends React.Component {
   }
 
   getSlidesCount() {
-    return this.slidesCount;
+    return this._slidesCount;
   }
 
   getCurrentIndex() {
@@ -109,15 +117,15 @@ class FullPage extends React.Component {
   }
 
   scrollToSlide(slide) {
-    if (!this.scrollPending && slide >= 0 && slide < this.slidesCount) {
+    if (!this._isScrollPending && slide >= 0 && slide < this._slidesCount) {
       this.setState({
         activeSlide: slide,
       });
 
-      this.scrollPending = true;
-      animatedScrollTo(this.slides[slide], 700, () => {
-        this.scrollPending = false;
-        this.scrolledAlready = true;
+      this._isScrollPending = true;
+      animatedScrollTo(this._slides[slide], 700, () => {
+        this._isScrollPending = false;
+        this._isScrolledAlready = true;
       });
     }
   }
