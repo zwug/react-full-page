@@ -17,12 +17,6 @@ export default class Controls extends React.Component {
     style: {},
   }
 
-  constructor(props) {
-    super(props);
-
-    this.fullpageInstance = null;
-  }
-
   renderSlidesNumbers(currentSlideIndex) {
     const { slidesCount, scrollToSlide } = this.props;
     const slidesNumbers = [];
