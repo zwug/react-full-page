@@ -14,10 +14,6 @@ class FullPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onResize = this.onResize.bind(this);
-    this.onScroll = this.onScroll.bind(this);
-    this.onTouchMove = this.onTouchMove.bind(this);
-    this.onTouchStart = this.onTouchStart.bind(this);
 
     this.scrollPending = false;
     this.scrolledAlready = false;
@@ -48,7 +44,7 @@ class FullPage extends React.Component {
     window.removeEventListener('resize', this.onResize);
   }
 
-  onResize() {
+  onResize = () => {
     this.slides = [];
 
     for (let i = 0; i < this.slidesCount; i++) {
@@ -60,12 +56,12 @@ class FullPage extends React.Component {
     });
   }
 
-  onTouchStart(e) {
-    this.touchStart = e.touches[0].clientY;
+  onTouchStart = (evt) => {
+    this.touchStart = evt.touches[0].clientY;
     this.scrolledAlready = false;
   }
 
-  onTouchMove(evt) {
+  onTouchMove = (evt) => {
     evt.preventDefault();
     const touchEnd = evt.changedTouches[0].clientY;
 
@@ -78,13 +74,13 @@ class FullPage extends React.Component {
     }
   }
 
-  onScroll(e) {
-    e.preventDefault();
+  onScroll = (evt) => {
+    evt.preventDefault();
     if (this.scrollPending) {
       return;
     }
 
-    const scrollDown = (e.wheelDelta || -e.deltaY || -e.detail) < 0;
+    const scrollDown = (evt.wheelDelta || -evt.deltaY || -evt.detail) < 0;
     let { activeSlide } = this.state;
 
     if (scrollDown) {
