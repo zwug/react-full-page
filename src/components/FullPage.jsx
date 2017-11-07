@@ -13,12 +13,14 @@ export default class FullPage extends React.Component {
       PropTypes.element,
     ]),
     controlsProps: PropTypes.object,
+    duration: PropTypes.number,
     initialSlide: PropTypes.number,
   }
 
   static defaultProps = {
     controls: false,
     controlsProps: {},
+    duration: 700,
     initialSlide: 0,
   }
 
@@ -134,7 +136,7 @@ export default class FullPage extends React.Component {
       });
 
       this._isScrollPending = true;
-      animatedScrollTo(this._slides[slide], 700, () => {
+      animatedScrollTo(this._slides[slide], this.props.duration, () => {
         this._isScrollPending = false;
         this._isScrolledAlready = true;
       });
