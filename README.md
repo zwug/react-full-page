@@ -6,12 +6,13 @@ Full screen scrolling with React
 ## [DEMO](http://zwug.github.io/react-full-page/)
 
 ```js
-const {FullPage, Slide} = require('react-full-page');
+import React from 'react';
+import { FullPage, Slide } from 'react-full-page';
 
-const FullPageExample = React.createClass({
+export default class FullPageExample extends React.Component {
   render() {
     return (
-      <FullPage {/* initialSlide={1} */}>
+      <FullPage controls>
         <Slide>
           <h1>Inner slide content</h1>
         </Slide>
@@ -27,35 +28,32 @@ const FullPageExample = React.createClass({
 __Available props__
 
 * `initialSlide` defaults to `0`
+* `duration` - scroll duration [ms] defaults to `700`
+* `controls` defaults to `false`
+  * `true` adds built-in controls
+  * Pass React component if you want to use your own controls
+* `controlsProps` additional props for controls component
+
 ## Slider Controls
 
-`withControls` wrapper provides method to control slider.
-
+Basic controls props (passed automatically)
 ```js
-const {withControls} = require('react-full-page');
-
-const Controls = withControls(({scrollToSlide}) => {
-  return <button onClick={() => scrollToSlide(1)}/>
-});
-
-const ControlsExample = React.createClass({
-  render() {
-    return (
-      <FullPage>
-        <Controls/>
-        <Slide/>
-        <Slide/>
-        <Slide/>
-      </FullPage>
-    );
-  }
-});
+  getCurrentSlideIndex: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired,
+  onPrev: PropTypes.func.isRequired,
+  scrollToSlide: PropTypes.func.isRequired,
+  slidesCount: PropTypes.number.isRequired,
+```
+Default controls example
+```js
+<FullPage controls controlsProps={{className: 'class-name'}}>
+  ...
+</FullPage>
 ```
 
-__Available methods__
-
-* `scrollToSlide`
-* `scrollNext`
-* `scrollPrev`
-* `getSlidesCount`
-* `getCurrentIndex`
+Custom controls example
+```js
+<FullPage controls={CustomControls} controlsProps={controlsProps}>
+  ...
+</FullPage>
+```

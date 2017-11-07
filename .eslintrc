@@ -1,5 +1,5 @@
 {
-  "extends": "eslint:recommended",
+  "extends": "airbnb",
   "parser": "babel-eslint",
   "plugins": ["react"],
   "env": {
@@ -7,6 +7,9 @@
     "node": true
   },
   "rules": {
-    "react/jsx-uses-vars": [2]
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "react/forbid-prop-types": ["error", { forbid: ["any", "array"] }],
+    "no-plusplus": 0,
+    "no-underscore-dangle": ["error", { "allowAfterThis": true }]
   }
 }

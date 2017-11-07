@@ -1,9 +1,7 @@
-const FullPage = require('./components/FullPage');
-const Slide = require('./components/Slide');
-const { withControls } = require('./components/ControlProvider');
+import FullPage from './components/FullPage';
+import Slide from './components/Slide';
 
-module.exports = {
-  withControls,
+export {
   FullPage,
-  Slide
+  Slide,
 };
