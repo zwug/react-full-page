@@ -28,6 +28,7 @@ export default class FullPageExample extends React.Component {
 __Available props__
 
 * `initialSlide` defaults to `0`
+* `duration` - scroll duration [ms] defaults to `700`
 * `controls` defaults to `false`
   * `true` adds built-in controls
   * Pass React component if you want to use your own controls
