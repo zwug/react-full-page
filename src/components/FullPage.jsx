@@ -11,6 +11,7 @@ export default class FullPage extends React.Component {
     controls: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.element,
+      PropTypes.func,
     ]),
     controlsProps: PropTypes.object,
     duration: PropTypes.number,
