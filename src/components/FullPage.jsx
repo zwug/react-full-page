@@ -170,7 +170,7 @@ export default class FullPage extends React.Component {
 
     const CustomControls = controls;
     return (
-      <CustomControls {...controlsProps} {...controlsProps} />
+      <CustomControls {...controlsBasicProps} {...controlsProps} />
     );
   }
 
