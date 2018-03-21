@@ -40,7 +40,7 @@ export default class FullPage extends React.Component {
     this._slidesCount = FullPage.getChildrenCount(this.props.children);
     this._touchSensitivity = 5;
     this._touchStart = 0;
-    this._isMobile = isMobileDevice();
+    this._isMobile = null;
 
     this.state = {
       activeSlide: props.initialSlide,
@@ -48,6 +48,7 @@ export default class FullPage extends React.Component {
   }
 
   componentDidMount() {
+    this._isMobile = isMobileDevice();
     if (this._isMobile) {
       document.addEventListener('touchmove', this.onTouchMove);
       document.addEventListener('touchstart', this.onTouchStart);
