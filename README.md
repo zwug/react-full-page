@@ -33,6 +33,8 @@ __Available props__
   * `true` adds built-in controls
   * Pass React component if you want to use your own controls
 * `controlsProps` additional props for controls component
+* `beforeChange` callback executed before scroll
+* `afterChange` callback executed after scroll
 
 ## Slider Controls
 
