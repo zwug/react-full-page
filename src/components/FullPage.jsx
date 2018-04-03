@@ -16,6 +16,8 @@ export default class FullPage extends React.Component {
     controlsProps: PropTypes.object,
     duration: PropTypes.number,
     initialSlide: PropTypes.number,
+    beforeChange: PropTypes.func,
+    afterChange: PropTypes.func,
   }
 
   static defaultProps = {
@@ -23,6 +25,8 @@ export default class FullPage extends React.Component {
     controlsProps: {},
     duration: 700,
     initialSlide: 0,
+    beforeChange: () => {},
+    afterChange: () => {},
   }
 
   static getChildrenCount = (children) => {
@@ -133,6 +137,9 @@ export default class FullPage extends React.Component {
 
   scrollToSlide = (slide) => {
     if (!this._isScrollPending && slide >= 0 && slide < this._slidesCount) {
+      const currentSlide = this.state.activeSlide;
+      this.props.beforeChange({ from: currentSlide, to: slide });
+
       this.setState({
         activeSlide: slide,
       });
@@ -141,6 +148,8 @@ export default class FullPage extends React.Component {
       animatedScrollTo(this._slides[slide], this.props.duration, () => {
         this._isScrollPending = false;
         this._isScrolledAlready = true;
+
+        this.props.afterChange({ from: currentSlide, to: slide });
       });
     }
   }
