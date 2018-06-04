@@ -21,6 +21,7 @@ export default class FullPage extends React.Component {
   }
 
   static defaultProps = {
+    disabled: false,
     controls: false,
     controlsProps: {},
     duration: 700,
@@ -46,6 +47,8 @@ export default class FullPage extends React.Component {
     this._touchStart = 0;
     this._isMobile = null;
 
+    this.rootElement = null;
+
     this.state = {
       activeSlide: props.initialSlide,
     };
@@ -63,6 +66,14 @@ export default class FullPage extends React.Component {
 
     this.onResize();
     this.scrollToSlide(this.props.initialSlide);
+  }
+
+  componentDidUpdate({ disabled }) {
+    if (!disabled && this.props.disabled) {
+      this.rootElement.scrollTop = this._slides[this.state.activeSlide];
+    } else if (disabled && !this.props.disabled) {
+      window.scrollTo(0, this._slides[this.state.activeSlide]);
+    }
   }
 
   componentWillUnmount() {
@@ -106,6 +117,10 @@ export default class FullPage extends React.Component {
   }
 
   onScroll = (evt) => {
+    if (this.props.disabled) {
+      return;
+    }
+
     evt.preventDefault();
     if (this._isScrollPending) {
       return;
@@ -185,8 +200,16 @@ export default class FullPage extends React.Component {
   }
 
   render() {
+    const rootStyle = {
+      height: this.state.height,
+    };
+
+    if (this.props.disabled) {
+      rootStyle.overflowY = 'auto';
+    }
+
     return (
-      <div style={{ height: this.state.height }}>
+      <div style={rootStyle} ref={(el) => { this.rootElement = el; }}>
         {this.renderControls()}
         {this.props.children}
       </div>
