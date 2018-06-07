@@ -5,8 +5,15 @@ import isMobileDevice from '../utils/is-mobile';
 import Slide from './Slide';
 import Controls from './Controls';
 
+const scrollMode = {
+  FULL_PAGE: 'full-page',
+  NORMAL: 'normal',
+};
+
 export default class FullPage extends React.Component {
   static propTypes = {
+    afterChange: PropTypes.func,
+    beforeChange: PropTypes.func,
     children: PropTypes.node.isRequired,
     controls: PropTypes.oneOfType([
       PropTypes.bool,
@@ -16,17 +23,17 @@ export default class FullPage extends React.Component {
     controlsProps: PropTypes.object,
     duration: PropTypes.number,
     initialSlide: PropTypes.number,
-    beforeChange: PropTypes.func,
-    afterChange: PropTypes.func,
+    scrollMode: PropTypes.oneOf(Object.values(scrollMode)),
   }
 
   static defaultProps = {
+    afterChange: () => {},
+    beforeChange: () => {},
     controls: false,
     controlsProps: {},
     duration: 700,
     initialSlide: 0,
-    beforeChange: () => {},
-    afterChange: () => {},
+    scrollMode: scrollMode.FULL_PAGE,
   }
 
   static getChildrenCount = (children) => {
@@ -54,7 +61,7 @@ export default class FullPage extends React.Component {
   componentDidMount() {
     this._isMobile = isMobileDevice();
     if (this._isMobile) {
-      document.addEventListener('touchmove', this.onTouchMove);
+      document.addEventListener('touchmove', this.onTouchMove, { passive: false });
       document.addEventListener('touchstart', this.onTouchStart);
     } else {
       document.addEventListener('wheel', this.onScroll);
@@ -93,6 +100,10 @@ export default class FullPage extends React.Component {
   }
 
   onTouchMove = (evt) => {
+    if (this.props.scrollMode !== scrollMode.FULL_PAGE) {
+      return;
+    }
+
     evt.preventDefault();
     const touchEnd = evt.changedTouches[0].clientY;
 
@@ -106,6 +117,10 @@ export default class FullPage extends React.Component {
   }
 
   onScroll = (evt) => {
+    if (this.props.scrollMode !== scrollMode.FULL_PAGE) {
+      return;
+    }
+
     evt.preventDefault();
     if (this._isScrollPending) {
       return;
