@@ -35,6 +35,7 @@ export default class FullPageExample extends React.Component {
 * `controlsProps` additional props for controls component
 * `beforeChange` callback executed before scroll
 * `afterChange` callback executed after scroll
+* `scrollMode` `full-page` or `normal` - defaults to `full-page`
 
 Both `beforeChange` and `afterChange` will receive as parameter an object like:
 
