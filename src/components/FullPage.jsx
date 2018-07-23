@@ -45,6 +45,8 @@ export default class FullPage extends React.Component {
   constructor(props) {
     super(props);
 
+    this._isNewScrollAction = true;
+    this._wheel = { increasing: true, lastDeltaY: 0 };
     this._isScrollPending = false;
     this._isScrolledAlready = false;
     this._slides = [];
@@ -123,6 +125,25 @@ export default class FullPage extends React.Component {
 
     evt.preventDefault();
     if (this._isScrollPending) {
+      return;
+    }
+    /** Detecting New Scroll Action
+     * _wheel.lastDeltaY stores last scroll deltaY to compare with current;
+     * _wheel.increasing used to define is the deltaY is still increasing
+     *  to define if its an kinetic scroll
+     */
+    const deltaY = Math.abs(evt.deltaY);
+    if (deltaY > this._wheel.lastDeltaY && !this._wheel.increasing) {
+      this._wheel.increasing = true;
+      this._isNewScrollAction = true;
+    } else {
+      this._isNewScrollAction = false;
+      if (deltaY < this._wheel.lastDeltaY) {
+        this._wheel.increasing = false;
+      }
+    }
+    this._wheel.lastDeltaY = deltaY;
+    if (!this._isNewScrollAction) {
       return;
     }
 
