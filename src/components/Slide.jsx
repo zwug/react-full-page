@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const Slide = props => (
-  <div {...props} style={Object.assign({}, props.style, { height: '100%' })}>
+  <div {...props} style={Object.assign({}, { height: '100%' },  props.style)}>
     {props.children}
   </div>
 );
