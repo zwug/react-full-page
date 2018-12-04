@@ -52,6 +52,7 @@ export default class FullPage extends React.Component {
     this._touchSensitivity = 5;
     this._touchStart = 0;
     this._isMobile = null;
+    this.onKeyDown = this.onKeyDown.bind(this);
 
     this.state = {
       activeSlide: props.initialSlide,
@@ -67,9 +68,10 @@ export default class FullPage extends React.Component {
       document.addEventListener('wheel', this.onScroll);
     }
     window.addEventListener('resize', this.onResize);
+    this.scrollToSlide(this.props.initialSlide);
 
     this.onResize();
-    this.scrollToSlide(this.props.initialSlide);
+    window.addEventListener('keydown', this.onKeyDown);
   }
 
   componentWillUnmount() {
@@ -141,6 +143,19 @@ export default class FullPage extends React.Component {
   getSlidesCount = () => this._slidesCount
 
   getCurrentSlideIndex = () => this.state.activeSlide
+
+  onKeyDown(e) {
+    e.preventDefault();
+    if (e.keyCode === 40 || e.keyCode === 39) {
+      if (this.state.activeSlide !== this.slides.length -1) {
+        this.scrollToSlide(this.state.activeSlide + 1);
+      }
+    } else if (e.keyCode === 38 || e.keyCode === 37) {
+      if (this.state.activeSlide !== 0) {
+        this.scrollToSlide(this.state.activeSlide - 1);
+      }
+    }
+  }
 
   scrollNext = () => {
     this.scrollToSlide(this.state.activeSlide + 1);
