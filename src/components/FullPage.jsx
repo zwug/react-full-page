@@ -147,7 +147,7 @@ export default class FullPage extends React.Component {
   onKeyDown(e) {
     e.preventDefault();
     if (e.keyCode === 40 || e.keyCode === 39) {
-      if (this.state.activeSlide !== this.slides.length -1) {
+      if (this.state.activeSlide < this._slidesCount) {
         this.scrollToSlide(this.state.activeSlide + 1);
       }
     } else if (e.keyCode === 38 || e.keyCode === 37) {
