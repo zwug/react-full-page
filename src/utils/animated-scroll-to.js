@@ -1,4 +1,4 @@
-const easeInOutCubic = require('./ease-in-out-cubic');
+import easeInOutCubic from './ease-in-out-cubic';
 
 export default function animatedScrollTo(scrollTo, duration, callback) {
   const scrollFrom = window.scrollY;

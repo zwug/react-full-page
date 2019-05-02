@@ -64,7 +64,7 @@ export default class FullPage extends React.Component {
       document.addEventListener('touchmove', this.onTouchMove, { passive: false });
       document.addEventListener('touchstart', this.onTouchStart);
     } else {
-      document.addEventListener('wheel', this.onScroll);
+      document.addEventListener('wheel', this.onScroll, { passive: false });
     }
     window.addEventListener('resize', this.onResize);
 

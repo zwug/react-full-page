@@ -26,7 +26,7 @@ export default class Controls extends React.Component {
         key: i,
         onClick: () => scrollToSlide(i),
       };
-      slidesNumbers.push(<button {...buttonProps}>{i + 1}</button>);
+      slidesNumbers.push(<button type="button" {...buttonProps}>{i + 1}</button>);
     }
     return slidesNumbers;
   }
@@ -40,6 +40,7 @@ export default class Controls extends React.Component {
     return (
       <div className={className} style={style}>
         <button
+          type="button"
           disabled={currentSlideIndex === 0}
           onClick={this.props.onPrev}
         >
@@ -47,6 +48,7 @@ export default class Controls extends React.Component {
         </button>
         {this.renderSlidesNumbers(currentSlideIndex)}
         <button
+          type="button"
           disabled={currentSlideIndex === slidesCount - 1}
           onClick={this.props.onNext}
         >
