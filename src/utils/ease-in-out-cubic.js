@@ -3,5 +3,3 @@ export default function easeInOutCubic(currentTime, startValue, changeInValue, d
   const timeCubic = time * time * time;
   return (changeInValue * (timeCubic + 1)) + startValue;
 }
-
-module.exports = easeInOutCubic;
