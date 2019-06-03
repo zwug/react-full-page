@@ -11,6 +11,7 @@
     "no-plusplus": 0,
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
     "react/destructuring-assignment": 0,
-    "react/forbid-prop-types": 0
+    "react/forbid-prop-types": 0,
+    "import/prefer-default-export": 0
   }
 }
