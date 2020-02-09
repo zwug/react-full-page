@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: {
     index: path.join(__dirname, '/examples/index.jsx'),
   },

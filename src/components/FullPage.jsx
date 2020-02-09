@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import animatedScrollTo from '../utils/animated-scroll-to';
 import isMobileDevice from '../utils/is-mobile';
+import { getObjectValues } from '../utils/helpers';
 import Slide from './Slide';
 import Controls from './Controls';
 
@@ -23,7 +24,7 @@ export default class FullPage extends React.Component {
     controlsProps: PropTypes.object,
     duration: PropTypes.number,
     initialSlide: PropTypes.number,
-    scrollMode: PropTypes.oneOf(Object.values(scrollMode)),
+    scrollMode: PropTypes.oneOf(getObjectValues(scrollMode)),
   }
 
   static defaultProps = {
@@ -64,7 +65,7 @@ export default class FullPage extends React.Component {
       document.addEventListener('touchmove', this.onTouchMove, { passive: false });
       document.addEventListener('touchstart', this.onTouchStart);
     } else {
-      document.addEventListener('wheel', this.onScroll);
+      document.addEventListener('wheel', this.onScroll, { passive: false });
     }
     window.addEventListener('resize', this.onResize);
 
