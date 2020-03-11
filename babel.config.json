@@ -1,0 +1,21 @@
+{
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "chrome": "31",
+          "firefox": "38",
+          "ie": "11",
+          "opera": "14",
+          "safari": "5.1"
+        },
+        "useBuiltIns": "usage"
+      }
+    ],
+    "@babel/react"
+  ],
+  "plugins": [
+    ["@babel/plugin-proposal-class-properties", { "loose": true }]
+  ]
+}
