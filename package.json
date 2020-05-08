@@ -9,7 +9,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "test": "eslint src",
-    "example": "webpack -p",
+    "build": "webpack -p",
     "prepublish": "./node_modules/.bin/babel ./src --out-dir ./lib"
   },
   "repository": {
