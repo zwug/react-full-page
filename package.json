@@ -1,6 +1,6 @@
 {
   "name": "react-full-page",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Full page scrolling with React",
   "main": "./lib",
   "directories": {
