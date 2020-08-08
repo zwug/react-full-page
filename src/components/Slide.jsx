@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Slide = props => (
+const Slide = (props) => (
   <div {...props} style={{ ...props.style, height: '100%' }}>
     {props.children}
   </div>
