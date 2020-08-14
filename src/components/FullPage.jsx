@@ -24,13 +24,13 @@ export default class FullPage extends React.Component {
     this._isScrollPending = false;
     this._isScrolledAlready = false;
     this._slides = [];
-    this._slidesCount = FullPage.getChildrenCount(this.props.children);
     this._touchSensitivity = 5;
     this._touchStart = 0;
     this._isMobile = null;
 
     this.state = {
       activeSlide: props.initialSlide,
+      slidesCount: FullPage.getChildrenCount(this.props.children),
     };
   }
 
@@ -48,6 +48,27 @@ export default class FullPage extends React.Component {
     this.scrollToSlide(this.props.initialSlide);
   }
 
+  componentDidUpdate() {
+    const newSlidesCount = FullPage.getChildrenCount(this.props.children);
+    if (newSlidesCount !== this.state.slidesCount) {
+      // use getDerivedStateFromProps after react <16 support is dropped
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        slidesCount: newSlidesCount,
+      }, this.updateSlides);
+
+      const slidesDiff = this.state.slidesCount - newSlidesCount;
+
+      // activeSlide should always be less than slides count
+      if (slidesDiff > 0 && this.state.activeSlide >= this.state.slidesCount - slidesDiff) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          activeSlide: newSlidesCount - 1,
+        }, this.updateSlides);
+      }
+    }
+  }
+
   componentWillUnmount() {
     if (this._isMobile) {
       document.removeEventListener('touchmove', this.onTouchMove);
@@ -58,13 +79,16 @@ export default class FullPage extends React.Component {
     window.removeEventListener('resize', this.onResize);
   }
 
-  onResize = () => {
+  updateSlides = () => {
     this._slides = [];
 
-    for (let i = 0; i < this._slidesCount; i++) {
+    for (let i = 0; i < this.state.slidesCount; i++) {
       this._slides.push(window.innerHeight * i);
     }
+  }
 
+  onResize = () => {
+    this.updateSlides();
     this.setState({
       height: window.innerHeight,
     });
@@ -114,7 +138,7 @@ export default class FullPage extends React.Component {
     this.scrollToSlide(activeSlide);
   }
 
-  getSlidesCount = () => this._slidesCount
+  getSlidesCount = () => this.state.slidesCount
 
   getCurrentSlideIndex = () => this.state.activeSlide
 
@@ -127,7 +151,7 @@ export default class FullPage extends React.Component {
   }
 
   scrollToSlide = (slide) => {
-    if (!this._isScrollPending && slide >= 0 && slide < this._slidesCount) {
+    if (!this._isScrollPending && slide >= 0 && slide < this.state.slidesCount) {
       const currentSlide = this.state.activeSlide;
       this.props.beforeChange({ from: currentSlide, to: slide });
 
