@@ -2,21 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class Controls extends React.Component {
-  static propTypes = {
-    className: PropTypes.string,
-    getCurrentSlideIndex: PropTypes.func.isRequired,
-    onNext: PropTypes.func.isRequired,
-    onPrev: PropTypes.func.isRequired,
-    scrollToSlide: PropTypes.func.isRequired,
-    slidesCount: PropTypes.number.isRequired,
-    style: PropTypes.object,
-  }
-
-  static defaultProps = {
-    className: 'full-page-controls',
-    style: {},
-  }
-
   renderSlidesNumbers(currentSlideIndex) {
     const { slidesCount, scrollToSlide } = this.props;
     const slidesNumbers = [];
@@ -58,3 +43,18 @@ export default class Controls extends React.Component {
     );
   }
 }
+
+Controls.propTypes = {
+  className: PropTypes.string,
+  getCurrentSlideIndex: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired,
+  onPrev: PropTypes.func.isRequired,
+  scrollToSlide: PropTypes.func.isRequired,
+  slidesCount: PropTypes.number.isRequired,
+  style: PropTypes.object,
+};
+
+Controls.defaultProps = {
+  className: 'full-page-controls',
+  style: {},
+};

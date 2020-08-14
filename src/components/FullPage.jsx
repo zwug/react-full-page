@@ -12,31 +12,6 @@ const scrollMode = {
 };
 
 export default class FullPage extends React.Component {
-  static propTypes = {
-    afterChange: PropTypes.func,
-    beforeChange: PropTypes.func,
-    children: PropTypes.node.isRequired,
-    controls: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.element,
-      PropTypes.func,
-    ]),
-    controlsProps: PropTypes.object,
-    duration: PropTypes.number,
-    initialSlide: PropTypes.number,
-    scrollMode: PropTypes.oneOf(getObjectValues(scrollMode)),
-  }
-
-  static defaultProps = {
-    afterChange: () => {},
-    beforeChange: () => {},
-    controls: false,
-    controlsProps: {},
-    duration: 700,
-    initialSlide: 0,
-    scrollMode: scrollMode.FULL_PAGE,
-  }
-
   static getChildrenCount = (children) => {
     const childrenArr = React.Children.toArray(children);
     const slides = childrenArr.filter(({ type }) => type === Slide);
@@ -209,3 +184,28 @@ export default class FullPage extends React.Component {
     );
   }
 }
+
+FullPage.propTypes = {
+  afterChange: PropTypes.func,
+  beforeChange: PropTypes.func,
+  children: PropTypes.node.isRequired,
+  controls: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.element,
+    PropTypes.func,
+  ]),
+  controlsProps: PropTypes.object,
+  duration: PropTypes.number,
+  initialSlide: PropTypes.number,
+  scrollMode: PropTypes.oneOf(getObjectValues(scrollMode)),
+};
+
+FullPage.defaultProps = {
+  afterChange: () => {},
+  beforeChange: () => {},
+  controls: false,
+  controlsProps: {},
+  duration: 700,
+  initialSlide: 0,
+  scrollMode: scrollMode.FULL_PAGE,
+};
