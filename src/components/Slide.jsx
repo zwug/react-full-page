@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-const Slide = (props) => (
-  <div {...props} style={{ ...props.style, height: '100%' }}>
+const Slide = forwardRef((props, forwardedRef) => (
+  <div ref={forwardedRef} {...props} style={{ ...props.style, height: '100%' }}>
     {props.children}
   </div>
-);
+));
 
 Slide.propTypes = {
   children: PropTypes.node,
