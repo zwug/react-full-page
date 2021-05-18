@@ -22,7 +22,7 @@ export default class FullPageExample extends React.Component {
       </FullPage>
     );
   }
-});
+};
 ```
 
 ## Props
