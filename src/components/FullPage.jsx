@@ -27,6 +27,7 @@ export default class FullPage extends React.Component {
     this._touchSensitivity = 5;
     this._touchStart = 0;
     this._isMobile = null;
+    this.mainContainerRef = React.createRef();
 
     this.state = {
       activeSlide: props.initialSlide,
@@ -104,14 +105,44 @@ export default class FullPage extends React.Component {
       return;
     }
 
-    evt.preventDefault();
     const touchEnd = evt.changedTouches[0].clientY;
 
-    if (!this._isScrollPending && !this._isScrolledAlready) {
-      if (this._touchStart > touchEnd + this._touchSensitivity) {
-        this.scrollToSlide(this.state.activeSlide + 1);
-      } else if (this._touchStart < touchEnd - this._touchSensitivity) {
-        this.scrollToSlide(this.state.activeSlide - 1);
+    var childHasVerticalScroll = false;
+
+    if (evt.path && evt.path.length) {
+      for(const element of evt.path) {
+        if (element == this.mainContainerRef.current || element == window) {
+          break;
+        } else {
+          var overFlowY = window.getComputedStyle(element)['overflow-y']
+          if ( (overFlowY == 'auto' || overFlowY == 'scroll') && element.scrollHeight > element.clientHeight) {
+            if ( (this._touchStart > touchEnd + this._touchSensitivity && element.scrollHeight > (element.scrollTop+element.clientHeight) ) ||
+                 (this._touchStart < touchEnd - this._touchSensitivity && element.scrollTop > 0)
+
+              ) {
+                childHasVerticalScroll = true;
+                break;
+            }
+            
+          }
+        } 
+      }
+    }
+
+    
+
+    if (!childHasVerticalScroll) {
+
+      evt.preventDefault();
+
+      
+
+      if (!this._isScrollPending && !this._isScrolledAlready) {
+        if (this._touchStart > touchEnd + this._touchSensitivity) {
+          this.scrollToSlide(this.state.activeSlide + 1);
+        } else if (this._touchStart < touchEnd - this._touchSensitivity) {
+          this.scrollToSlide(this.state.activeSlide - 1);
+        }
       }
     }
   }
@@ -201,7 +232,7 @@ export default class FullPage extends React.Component {
 
   render() {
     return (
-      <div style={{ height: this.state.height }}>
+      <div ref={this.mainContainerRef} style={{ height: this.state.height }}>
         {this.renderControls()}
         {this.props.children}
       </div>
