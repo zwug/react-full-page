@@ -111,7 +111,7 @@ export default class FullPage extends React.Component {
 
     if (evt.path && evt.path.length) {
       for(const element of evt.path) {
-        if (element == this.mainContainerRef.current || element == window) {
+        if (element == this.mainContainerRef.current || element.nodeType == Node.ELEMENT_NODE) {
           break;
         } else {
           var overFlowY = window.getComputedStyle(element)['overflow-y']
