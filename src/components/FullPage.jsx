@@ -111,21 +111,24 @@ export default class FullPage extends React.Component {
 
     if (evt.path && evt.path.length) {
       for(const element of evt.path) {
-        if (element == this.mainContainerRef.current || element.nodeType == Node.ELEMENT_NODE) {
-          break;
-        } else {
-          var overFlowY = window.getComputedStyle(element)['overflow-y']
-          if ( (overFlowY == 'auto' || overFlowY == 'scroll') && element.scrollHeight > element.clientHeight) {
-            if ( (this._touchStart > touchEnd + this._touchSensitivity && element.scrollHeight > (element.scrollTop+element.clientHeight) ) ||
-                 (this._touchStart < touchEnd - this._touchSensitivity && element.scrollTop > 0)
+        if (element.nodeType == Node.ELEMENT_NODE) {
+          if (element == this.mainContainerRef.current) {
+            break;
+          } else {
+            var overFlowY = window.getComputedStyle(element)['overflow-y']
+            if ( (overFlowY == 'auto' || overFlowY == 'scroll') && element.scrollHeight > element.clientHeight) {
+              if ( (this._touchStart > touchEnd + this._touchSensitivity && element.scrollHeight > (element.scrollTop+element.clientHeight) ) ||
+                   (this._touchStart < touchEnd - this._touchSensitivity && element.scrollTop > 0)
 
-              ) {
-                childHasVerticalScroll = true;
-                break;
+                ) {
+                  childHasVerticalScroll = true;
+                  break;
+              }
+              
             }
-            
           }
-        } 
+        }
+
       }
     }
 
