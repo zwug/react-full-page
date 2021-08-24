@@ -107,18 +107,19 @@ export default class FullPage extends React.Component {
     return diffY - this.props.touchSensitivity > 0 && diffY >= diffX;
   }
 
-  isScrollHappensInMainContainer = (paths) => {
-    if (paths && paths.length) {
-      for(const element of paths) {
-        if (element == this.mainContainerRef.current) {
-          return true;
-        }
+  isScrollHappensInMainContainer = (element) => {
+    var el = element;
+    while(el) {
+      if (el == this.mainContainerRef.current) {
+        return true;
       }
+      el = el.parentElement;
     }
+    
   }
 
   onTouchMove = (evt) => {
-    if (this.props.scrollMode !== scrollMode.FULL_PAGE || !this.isVerticalScrollIntent(evt.changedTouches[0]) || !this.isScrollHappensInMainContainer(evt.path) ) {
+    if (this.props.scrollMode !== scrollMode.FULL_PAGE || !this.isVerticalScrollIntent(evt.changedTouches[0]) || !this.isScrollHappensInMainContainer(evt.target) ) {
       return;
     }
 
@@ -127,29 +128,26 @@ export default class FullPage extends React.Component {
     const touchEnd = evt.changedTouches[0].clientY;
 
     var childHasVerticalScroll = false;
+    var element = evt.target;
+    while(element) {
+      if (element == this.mainContainerRef.current) {
+          break;
+        } else {
+          var overFlowY = window.getComputedStyle(element)['overflow-y']
+          if ( (overFlowY == 'auto' || overFlowY == 'scroll') && element.scrollHeight > element.clientHeight) {
+            if ( (this._touchStart > touchEnd + touchSensitivity && element.scrollHeight > (element.scrollTop+element.clientHeight) ) ||
+                 (this._touchStart < touchEnd - touchSensitivity && element.scrollTop > 0)
 
-    if (evt.path && evt.path.length) {
-      for(const element of evt.path) {
-        if (element.nodeType == Node.ELEMENT_NODE) {
-          if (element == this.mainContainerRef.current) {
-            break;
-          } else {
-            var overFlowY = window.getComputedStyle(element)['overflow-y']
-            if ( (overFlowY == 'auto' || overFlowY == 'scroll') && element.scrollHeight > element.clientHeight) {
-              if ( (this._touchStart > touchEnd + touchSensitivity && element.scrollHeight > (element.scrollTop+element.clientHeight) ) ||
-                   (this._touchStart < touchEnd - touchSensitivity && element.scrollTop > 0)
-
-                ) {
-                  childHasVerticalScroll = true;
-                  break;
-              }
-              
+              ) {
+                childHasVerticalScroll = true;
+                break;
             }
+            
           }
         }
-
-      }
+        element = element.parentElement;
     }
+    
 
     
 
