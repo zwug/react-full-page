@@ -24,7 +24,6 @@ export default class FullPage extends React.Component {
     this._isScrollPending = false;
     this._isScrolledAlready = false;
     this._slides = [];
-    this._touchSensitivity = 5;
     this._touchStart = 0;
     this._isMobile = null;
     this.mainContainerRef = React.createRef();
@@ -105,7 +104,7 @@ export default class FullPage extends React.Component {
     const diffX = Math.abs(this._touchStartX - changedTouches.clientX)
     const diffY = Math.abs(this._touchStart - changedTouches.clientY);
 
-    return diffY - this._touchSensitivity > 0 && diffY >= diffX;
+    return diffY - this.props.touchSensitivity > 0 && diffY >= diffX;
   }
 
   onTouchMove = (evt) => {
@@ -114,7 +113,7 @@ export default class FullPage extends React.Component {
     }
 
    
-
+    const {touchSensitivity} = this.props;
     const touchEnd = evt.changedTouches[0].clientY;
 
     var childHasVerticalScroll = false;
@@ -127,8 +126,8 @@ export default class FullPage extends React.Component {
           } else {
             var overFlowY = window.getComputedStyle(element)['overflow-y']
             if ( (overFlowY == 'auto' || overFlowY == 'scroll') && element.scrollHeight > element.clientHeight) {
-              if ( (this._touchStart > touchEnd + this._touchSensitivity && element.scrollHeight > (element.scrollTop+element.clientHeight) ) ||
-                   (this._touchStart < touchEnd - this._touchSensitivity && element.scrollTop > 0)
+              if ( (this._touchStart > touchEnd + touchSensitivity && element.scrollHeight > (element.scrollTop+element.clientHeight) ) ||
+                   (this._touchStart < touchEnd - touchSensitivity && element.scrollTop > 0)
 
                 ) {
                   childHasVerticalScroll = true;
@@ -151,9 +150,9 @@ export default class FullPage extends React.Component {
       
 
       if (!this._isScrollPending && !this._isScrolledAlready) {
-        if (this._touchStart > touchEnd + this._touchSensitivity) {
+        if (this._touchStart > touchEnd + touchSensitivity) {
           this.scrollToSlide(this.state.activeSlide + 1);
-        } else if (this._touchStart < touchEnd - this._touchSensitivity) {
+        } else if (this._touchStart < touchEnd - touchSensitivity) {
           this.scrollToSlide(this.state.activeSlide - 1);
         }
       }
@@ -276,4 +275,5 @@ FullPage.defaultProps = {
   duration: 700,
   initialSlide: 0,
   scrollMode: scrollMode.FULL_PAGE,
+  touchSensitivity: 5
 };
