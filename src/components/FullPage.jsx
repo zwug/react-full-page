@@ -97,13 +97,23 @@ export default class FullPage extends React.Component {
 
   onTouchStart = (evt) => {
     this._touchStart = evt.touches[0].clientY;
+    this._touchStartX = evt.touches[0].clientX;
     this._isScrolledAlready = false;
   }
 
+  isVerticalScrollIntent = (changedTouches) => {
+    const diffX = Math.abs(this._touchStartX - changedTouches.clientX)
+    const diffY = Math.abs(this._touchStart - changedTouches.clientY);
+
+    return diffY - this._touchSensitivity > 0 && diffY >= diffX;
+  }
+
   onTouchMove = (evt) => {
-    if (this.props.scrollMode !== scrollMode.FULL_PAGE) {
+    if (this.props.scrollMode !== scrollMode.FULL_PAGE || !this.isVerticalScrollIntent(evt.changedTouches[0])) {
       return;
     }
+
+   
 
     const touchEnd = evt.changedTouches[0].clientY;
 
