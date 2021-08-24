@@ -109,7 +109,7 @@ export default class FullPage extends React.Component {
 
   isScrollHappensInMainContainer = (paths) => {
     if (paths && paths.length) {
-      for(const element of path) {
+      for(const element of paths) {
         if (element == this.mainContainerRef.current) {
           return true;
         }
