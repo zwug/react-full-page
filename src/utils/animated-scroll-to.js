@@ -1,6 +1,6 @@
 export default function animatedScrollTo(scrollTo, callback) {
   const scrollCallback = (e) => {
-    if (window.scrollY.toFixed() === scrollTo.toFixed()) {
+    if (window.pageYOffset.toFixed() === scrollTo.toFixed()) {
       window.removeEventListener("scroll", scrollCallback);
       callback();
     }
