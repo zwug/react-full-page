@@ -160,7 +160,7 @@ export default class FullPage extends React.Component {
       });
 
       this._isScrollPending = true;
-      animatedScrollTo(this._slides[slide], this.props.duration, () => {
+      animatedScrollTo(this._slides[slide], () => {
         this._isScrollPending = false;
         this._isScrolledAlready = true;
 
@@ -219,7 +219,6 @@ FullPage.propTypes = {
     PropTypes.func,
   ]),
   controlsProps: PropTypes.object,
-  duration: PropTypes.number,
   initialSlide: PropTypes.number,
   scrollMode: PropTypes.oneOf(getObjectValues(scrollMode)),
 };
@@ -229,7 +228,6 @@ FullPage.defaultProps = {
   beforeChange: () => {},
   controls: false,
   controlsProps: {},
-  duration: 700,
   initialSlide: 0,
   scrollMode: scrollMode.FULL_PAGE,
 };
